@@ -1,32 +1,32 @@
 ---
 - name: Install java in Amazon linux
   ansible.builtin.yum:
-     name: java-1.8.0-amazon-corretto-devel
+     name: '{{ java_package }}'
      state: present
   when: ansible_os_family == 'RedHat'
 
 - name: Install java in Ubuntu linux
   ansible.builtin.apt:
-     name: openjdk-8-jdk
+     name: '{{java_package_ubuntu}}'
      state: present
   when: ansible_os_family == 'Debian'
 
 - name: Download Maven
   ansible.builtin.get_url:
-     url: https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+     url: https://dlcdn.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
      dest: /opt/
      mode: '0644'
 
 - name: Extract the downloaded maven
   ansible.builtin.unarchive:
-     src: /opt/apache-maven-3.9.6-bin.tar.gz
+     src: /opt/apache-maven-{{ maven_version }}-bin.tar.gz
      dest: /opt/
      remote_src: true
-     creates: "/opt/apache-maven-3.9.6"
+     creates: "/opt/apache-maven-{{ maven_version }}"
 
 - name: Create symbolic link to Maven
   ansible.builtin.file:
-     src: /opt/apache-maven-3.9.6
+     src: /opt/apache-maven-{{ maven_version }}
      dest: /opt/maven
      state: link
 

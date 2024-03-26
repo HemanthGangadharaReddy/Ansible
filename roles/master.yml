@@ -1,8 +1,8 @@
 ---
-- name: Install Maven
+- name: Install Maven, Sonarqube and Nexus
   hosts: demo
   become: true
   roles:
-    - install_maven
+  #  - install_maven
   #  - install_sonarqube
     - install_nexus
